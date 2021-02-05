@@ -36,4 +36,37 @@ El documento disponible en el sitio web del INEGI, el cual contiene los siguient
 
 ![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/histograma_PIB.jpeg)
 
-*Gráfico 1. Histograma de PIB*
+*Gráfico 1. Histograma de PIB, utilizando hist()*
+
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/histograma_ggplot.jpeg)
+
+*Gráfico 2. Histograma de PIB, utilizando ggplot()*
+
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/correlacion_PIB_VAB1.jpeg)
+
+*Gráfico 3. Correlación entre PIB y Valor agregado bruto por actividades primarias*
+
+Observemos si el Producto Interno Bruto sigue una distribución normal.
+
+Podemos notar que la media es de 175.
+
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/densidadProbNorm.jpeg)
+
+*Gráfico 4. Densidad de probabilidad normal*
+
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/hist_MuestraNormal.jpeg)
+
+*Gráfico 5. Histograma para la muestra normal*
+
+Contrate de hipótesis:
+Dada una muestra aleatoria de tamaño n = 10 de la distribución normal.
+```r
+# Últimos 6 elementos de nuestra muestra
+    muestra
+5  17313794
+6  14965123
+7  14812523
+8  11606794
+9  13077428
+10 16560683
+```
