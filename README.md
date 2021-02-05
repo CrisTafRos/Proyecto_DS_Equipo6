@@ -1,4 +1,9 @@
 # Proyecto_DS_Equipo6
+## Integrantes Equipo 6
+- Flores Nogueira Diego David
+- González Toleto Atzimba Alejandra
+- Mendoza Martínez Arturo
+- Tafolla Rosales Cristian
 ## Introducción
 Una forma de poder visualizar el progreso de la economía de cualquier nación tomará siempre como referencia el cálculo del Producto Interno Bruto (PIB), indicador que ilustra el valor total de los bienes y servicios finales producidos en un país.
 Las organizaciones toman tanto los datos históricos como los pronósticos del PIB para poder tomar decisiones para expandir sus actividades o saber si es conveniente invertir en cierta nación. Por esta razón decidimos profundizar en materia para poder hacer un análisis descriptivo de los registros anuales nacionales, entender su comportamiento y hacer una proyección a partir de dicha información
