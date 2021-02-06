@@ -7,6 +7,10 @@
 ## Introducción
 Una forma de poder visualizar el progreso de la economía de cualquier nación tomará siempre como referencia el cálculo del Producto Interno Bruto (PIB), indicador que ilustra el valor total de los bienes y servicios finales producidos en un país.
 Las organizaciones toman tanto los datos históricos como los pronósticos del PIB para poder tomar decisiones para expandir sus actividades o saber si es conveniente invertir en cierta nación. Por esta razón decidimos profundizar en materia para poder hacer un análisis descriptivo de los registros anuales nacionales, entender su comportamiento y hacer una proyección a partir de dicha información
+## Estructura del proyecto
+- El archivo nombrado  `PROYECTO.R` contiene todo el código utilizado para el desarrollo del proyecto.
+- La carpeta `ProyectoPIB/PIB` corresponde al dashboard construido con Shiny.
+- Este archivo,  `README.md` describe a grandes razgos el contenido del proyecto.
 ## Datos
 En México el encargado de calcular el PIB es el Instituto Nacional de Estadística y Geografía (INEGI). Sus tareas principales son captar, procesar y difundir información acerca del territorio, la población y la economía.
 El documento disponible en el sitio web del INEGI, el cual contiene los siguientes datos:
@@ -58,7 +62,7 @@ Podemos notar que la media es de 175.
 
 *Gráfico 5. Histograma para la muestra normal*
 
-Contrate de hipótesis:
+Contraste de hipótesis:
 Dada una muestra aleatoria de tamaño n = 10 de la distribución normal.
 ```r
 # Últimos 6 elementos de nuestra muestra
@@ -70,13 +74,18 @@ Dada una muestra aleatoria de tamaño n = 10 de la distribución normal.
 9  13077428
 10 16560683
 ```
-
-### Aquí no sé cómo explicar las hipótesis TnT
-
 Formulando una regresión lineal múltiple de PIB
-- Utilizando al PIB como variable dependiente y a impuestos sobre los productos netos, valor agregado bruto, valor agregado bruto por actividades primarias, valor agregado bruto por actividades secundarias y valor agregado bruto por actividades terciarias como variables independientes.
 
-```r
+- Llevamos a cabo el siguiente modelo y si es necesario ajustarlo, cabe resaltar que este modelo ya esta establecido por el INEGI
+
+Y(PIB) = beta0 + beta1 * ISPN + beta2 * VAB + beta3 * VAB_A1 + beta4 * VAB_A2 + beta5 * VAB_A3 + e
+```
+> m1 <- lm(PIB ~ ISPN+ VAB + VAB_A1 + VAB_A2 + VAB_A3)
+> summary(m1)
+
+Call:
+lm(formula = PIB ~ ISPN + VAB + VAB_A1 + VAB_A2 + VAB_A3)
+
 Residuals:
       Min        1Q    Median        3Q       Max 
 -0.115962 -0.013043 -0.003682  0.011772  0.108759 
@@ -96,9 +105,17 @@ Residual standard error: 0.04679 on 35 degrees of freedom
 Multiple R-squared:      1,	Adjusted R-squared:      1 
 F-statistic: 5.297e+16 on 4 and 35 DF,  p-value: < 2.2e-16
 ```
-- La regresión lineal, omitiendo el valor agregado bruto por actividades terciarias.
+Este primer modelo indica que el R cuadrada ajustada es igual a 1, entonces es un buen modelo. Continuaremos manipulando a las variables para llegar a un modelo de 95% de exactitug y no del 100%
 
-```r
+- Omitiendo el valor agregado bruto por actividades terciarias.
+
+```
+> m2 <- update(m1, ~.-VAB_A3)
+> summary(m2)
+
+Call:
+lm(formula = PIB ~ ISPN + VAB + VAB_A1 + VAB_A2)
+
 Residuals:
       Min        1Q    Median        3Q       Max 
 -0.115962 -0.013043 -0.003682  0.011772  0.108759 
@@ -117,9 +134,15 @@ Residual standard error: 0.04679 on 35 degrees of freedom
 Multiple R-squared:      1,	Adjusted R-squared:      1 
 F-statistic: 5.297e+16 on 4 and 35 DF,  p-value: < 2.2e-16
 ```
-- La regresión lineal, omitiendo el valor agregado bruto.
+Después de eliminar dicha variable de las actividades terciarias, vemos que no hay cambio significativos, así que seguiremos eliminando variables que intuimos que harian cambiar el modelo:
+- Omitiendo el valor agregado bruto.
+```
+> m3 <- update(m2, ~.-VAB)
+> summary(m3)
 
-```r
+Call:
+lm(formula = PIB ~ ISPN + VAB_A1 + VAB_A2)
+
 Residuals:
     Min      1Q  Median      3Q     Max 
 -248125 -116854  -23793   78636  459269 
@@ -137,8 +160,16 @@ Residual standard error: 164400 on 36 degrees of freedom
 Multiple R-squared:  0.9979,	Adjusted R-squared:  0.9977 
 F-statistic:  5705 on 3 and 36 DF,  p-value: < 2.2e-16
 ```
-- La regresión lineal, omitiendo los impuestos sobre los productos netos.
+Este tercer modelo da como resultado una r cuadrada de **0.9977**, así que quitaremos otra variable para llegar al 95%
+
+- Omitiendo los impuestos sobre los productos netos.
 ```r
+> m4<- update(m3, ~.-ISPN)
+> summary(m4)
+
+Call:
+lm(formula = PIB ~ VAB_A1 + VAB_A2)
+
 Residuals:
     Min      1Q  Median      3Q     Max 
 -493778 -139859   17982  140946  718779 
@@ -155,16 +186,13 @@ Residual standard error: 243400 on 37 degrees of freedom
 Multiple R-squared:  0.9953,	Adjusted R-squared:  0.995 
 F-statistic:  3895 on 2 and 37 DF,  p-value: < 2.2e-16
 ```
-Encontrando la correlación entre el PIB y el valor agregado bruto por actividades primarias y secundarias.
 
-A continuación mostramos una matriz de gráficos de dispersión de los DOS predictores continuos. Los predictores parecen estar linealmente relacionados, al menos aproximadamente.
+Por lo tanto, el modelo resultante sería: `Y(PIB)= BETA0 + BETA3 * ACTIVIDADES PRIMARIAS + BETA4 * ACTIVIDADES SECUNDARIAS`
+O en otros términos, `y=beta0+beta3*VAB_A2 + beta4*VAB_A3`
 
-![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_cont.jpeg)
-
-*Gráfico 6. Gráficos de dispersión de ambos predictores continuos.*
-
-Posteriormente veremos gráficas de residuales estandarizados contra cada predictor. La naturaleza aleatoria de estas gráficas es un indicativo de que el modelo ajustado es un modelo válido para los datos.
-
-![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/residuales_estandarizados.jpeg)
-
-*Gráfico 7. Gráficos de residuales estandarizados contra ambos predictores continuos.*
+Ahora, asignaremos los valores de betas:
+```r
+beta0=-5.008e+06
+beta3=2.579e+01
+beta4=1.519e+00
+```
