@@ -58,7 +58,7 @@ hist(x=data.final$PIB,
      breaks = 10,
      main = " Histograma de PIB",
      ylab = "Frecuencia",
-     xlab = "VILES DE MESOS", 
+     xlab = "MILES DE MESOS", 
      col = "blue")
 
 
@@ -68,7 +68,7 @@ ggplot(data.final, aes(PIB))+
   geom_histogram(binwidth = 1000000, col="black", fill = "blue") + 
   ggtitle("Histograma de Mediciones") +
   ylab("Frecuencia") +
-  xlab("Alturas") + 
+  xlab("VALIRES DE PIB") + 
   theme_light()
 
 (my_scatplot <- ggplot(data.final, aes(x = PIB, y = VAB_A1)) + geom_point()+geom_smooth(method = "lm", se = T))
