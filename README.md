@@ -36,11 +36,11 @@ El documento disponible en el sitio web del INEGI, el cual contiene los siguient
 
 ![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/histograma_PIB.jpeg)
 
-*Gráfico 1. Histograma de PIB, utilizando hist()*
+*Gráfico 1. Histograma de PIB, utilizando `hist()`*
 
 ![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/histograma_ggplot.jpeg)
 
-*Gráfico 2. Histograma de PIB, utilizando ggplot()*
+*Gráfico 2. Histograma de PIB, utilizando `ggplot()`*
 
 ![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/correlacion_PIB_VAB1.jpeg)
 
@@ -70,3 +70,101 @@ Dada una muestra aleatoria de tamaño n = 10 de la distribución normal.
 9  13077428
 10 16560683
 ```
+
+### Aquí no sé cómo explicar las hipótesis TnT
+
+Formulando una regresión lineal múltiple de PIB
+- Utilizando al PIB como variable dependiente y a impuestos sobre los productos netos, valor agregado bruto, valor agregado bruto por actividades primarias, valor agregado bruto por actividades secundarias y valor agregado bruto por actividades terciarias como variables independientes.
+
+```r
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.115962 -0.013043 -0.003682  0.011772  0.108759 
+
+Coefficients: (1 not defined because of singularities)
+              Estimate Std. Error    t value Pr(>|t|)    
+(Intercept) -5.653e-02  1.660e-01 -3.400e-01    0.736    
+ISPN         1.000e+00  6.183e-07  1.617e+06   <2e-16 ***
+VAB          1.000e+00  4.742e-08  2.109e+07   <2e-16 ***
+VAB_A1       2.521e-07  8.789e-07  2.870e-01    0.776    
+VAB_A2      -8.498e-08  6.714e-08 -1.266e+00    0.214    
+VAB_A3              NA         NA         NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.04679 on 35 degrees of freedom
+Multiple R-squared:      1,	Adjusted R-squared:      1 
+F-statistic: 5.297e+16 on 4 and 35 DF,  p-value: < 2.2e-16
+```
+- La regresión lineal, omitiendo el valor agregado bruto por actividades terciarias.
+
+```r
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.115962 -0.013043 -0.003682  0.011772  0.108759 
+
+Coefficients:
+              Estimate Std. Error    t value Pr(>|t|)    
+(Intercept) -5.653e-02  1.660e-01 -3.400e-01    0.736    
+ISPN         1.000e+00  6.183e-07  1.617e+06   <2e-16 ***
+VAB          1.000e+00  4.742e-08  2.109e+07   <2e-16 ***
+VAB_A1       2.521e-07  8.789e-07  2.870e-01    0.776    
+VAB_A2      -8.498e-08  6.714e-08 -1.266e+00    0.214    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.04679 on 35 degrees of freedom
+Multiple R-squared:      1,	Adjusted R-squared:      1 
+F-statistic: 5.297e+16 on 4 and 35 DF,  p-value: < 2.2e-16
+```
+- La regresión lineal, omitiendo el valor agregado bruto.
+
+```r
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-248125 -116854  -23793   78636  459269 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -1.722e+06  5.082e+05  -3.388  0.00172 ** 
+ISPN         1.027e+01  1.529e+00   6.714 7.81e-08 ***
+VAB_A1       8.395e+00  2.754e+00   3.048  0.00430 ** 
+VAB_A2       1.299e+00  9.382e-02  13.847 5.44e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 164400 on 36 degrees of freedom
+Multiple R-squared:  0.9979,	Adjusted R-squared:  0.9977 
+F-statistic:  5705 on 3 and 36 DF,  p-value: < 2.2e-16
+```
+- La regresión lineal, omitiendo los impuestos sobre los productos netos.
+```r
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-493778 -139859   17982  140946  718779 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -5.008e+06  2.027e+05  -24.71  < 2e-16 ***
+VAB_A1       2.579e+01  1.386e+00   18.61  < 2e-16 ***
+VAB_A2       1.518e+00  1.302e-01   11.66 5.88e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 243400 on 37 degrees of freedom
+Multiple R-squared:  0.9953,	Adjusted R-squared:  0.995 
+F-statistic:  3895 on 2 and 37 DF,  p-value: < 2.2e-16
+```
+Encontrando la correlación entre el PIB y el valor agregado bruto por actividades primarias y secundarias.
+
+A continuación mostramos una matriz de gráficos de dispersión de los DOS predictores continuos. Los predictores parecen estar linealmente relacionados, al menos aproximadamente.
+
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_cont.jpeg)
+
+*Gráfico 6. Gráficos de dispersión de ambos predictores continuos.*
+
+Posteriormente veremos gráficas de residuales estandarizados contra cada predictor. La naturaleza aleatoria de estas gráficas es un indicativo de que el modelo ajustado es un modelo válido para los datos.
+
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/residuales_estandarizados.jpeg)
+
+*Gráfico 7. Gráficos de residuales estandarizados contra ambos predictores continuos.*
