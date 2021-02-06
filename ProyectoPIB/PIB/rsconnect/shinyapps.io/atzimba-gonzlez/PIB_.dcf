@@ -1,0 +1,12 @@
+name: PIB_
+title: PIB_
+username:
+account: atzimba-gonzlez
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3591459
+bundleId: 4187354
+url: https://atzimba-gonzlez.shinyapps.io/PIB_/
+when: 1612578483.64494
+asMultiple: FALSE
+asStatic: FALSE
