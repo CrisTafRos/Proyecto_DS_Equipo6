@@ -129,75 +129,65 @@ suppressWarnings(suppressMessages(library(dplyr)))
 head(data.final, 2); tail(data.final, 2); dim(data.final)
 
 attach(data.final)
-
 # Llevamos a cabo el siguiente modelo y si es necesario ajustarlo
 # Y(PIB) = beta0 + beta1*ISPN + beta2*VAB + beta3*VAB_A1 + beta4*VAB_A2 + beta5*VAB_A3 + e
-
+#cabe resaltar que este modelo ya esta dado por el inegi
 m1 <- lm(PIB ~ ISPN+ VAB + VAB_A1 + VAB_A2 + VAB_A3)
 
 summary(m1)
+#ste primer modelo con dice que el R cuadrada ajustada es igual a 1 entonces es un buen modelo 
+# tiene logica pues el mdelo que usa el inegi juaremos un poco con las variables para llegar a 
+#un modelp de 95% de esactitid y no del 100%
 
 m2 <- update(m1, ~.-VAB_A3)
 summary(m2)
 
+#despes de eliminar la variable de las actividades terciarias vemos que sigue igual seguiremos eliminando 
+#variables que pensemos que harian cambiar el modelo 
+
 m3<-  update(m2, ~.-VAB)
 summary(m3)
+# este modelo 3 nos saca una r cuadrad de 0.9977 quitaremos otra variable para ver si llegamos a 95%
 
 m4<- update(m3, ~.-ISPN)
 summary(m4)
 m4
-# A continuación mostramos una matriz de gráficos de dispersión de los
-# DOS predictores continuos. Los predictores parecen estar linealmente
-# relacionados al menos aproximadamente
-pairs(~ VAB_A1 + VAB_A2, data = data.final, gap = 0.4, cex.labels = 1.5)
 
-# A continuación veremos gráficas de residuales estandarizados contra cada
-# predictor. La naturaleza aleatoria de estas gráficas es un indicativo de
-# que el modelo ajustado es un modelo v?lido para los datos.
-
-m4 <- lm(PIB ~ VAB_A1+VAB_A2)
-summary(m4)
-StanRes1 <- rstandard(m4)
-par(mfrow = c(2, 2))
-plot(ISPN, StanRes1, ylab = "Residuales Estandarizados")
-plot(VAB, StanRes1, ylab = "Residuales Estandarizados")
-plot(VAB_A1, StanRes1, ylab = "Residuales Estandarizados")
-plot(VAB_A2, StanRes1, ylab = "Residuales Estandarizados")
-dev.off()
-
-# Finalmente mostramos una gr?fica de Y, el precio contra los valores
-# ajustados 
-
-plot(m4$fitted.values, PIB, xlab = "Valores ajustados", ylab = "VILES DE PESOS")
-abline(lsfit(m1$fitted.values, PIB))
-
-
-#### T?cnicas descriptivas: gr?ficas, tendencias y variaci?n estacional
-library(TSA)
-data(PIB.DATA)
-seriedetiempo<-ts(data.final$PIB, freq=1, start = c(1980,1) )
-data.final
-seriedetiempo
-
-
-plot(seriedetiempo, type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendencia de PIB anual")
-
-plot(seriedetiempo, type = "l", ylab = "Vmillones de pesos", xlab = "Tiempo",
-     main = "Tendecia de PIB anual",
-     sub = "Símbolos Especiales")
-
-
-vab_a1=565151	
-vab_a2=4700371
-
+# entonces nuestro modelo queda asi 
+#Y(PIB)= BETA0 + BETA3*ACTIVIDADES_PRIMARIAS + BETA4*ACTIVIDADES SECUNDARIAS 
+#y=beta0+beta3*VAB_A2 + beta4*VAB_A3
+# nuestros valores de betas son 
 beta0=-5.008e+06
 beta3=2.579e+01
 beta4=1.519e+00
 
-prediccion =beta0+beta3*vab_a1+beta4*vab_a2
+
+# hacemos la prediccion en base a datos encontrados en inegi de lo que fue el a?o 2020
+DATOS2020<-read.csv(file ="PIB2020.csv")
+names(DATOS2020)
+DATOS2020<-rename(DATOS2020,X1=Impuestos.sobre.los.productos..netos,X2=Valor.agregado.bruto,X3=Actividades.primarias,X4=Actividades.secundarias,X5=Actividades.terciarias)
+str(DATOS2020)
+View(DATOS2020)
+prediccion =beta0+beta3*DATOS2020$X3+beta4*DATOS2020$X4
 prediccion
 
-plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendencia de PIB anual")
-points(x=2020,y=prediccion,col="blue",pch=19)
-max(data.final$PIB)
+#aqui podemos ver nuestras 5 predicciones con los valores dados
+plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendecia de PIB anual")
+points(x=rep(2020,5),y=prediccion,col="blue",pch=19)
+#y aqui vemos graica uno por uno 
+plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendecia de PIB 1 trimestre ")
+points(x=2020,y=prediccion[1],col="blue",pch=19)
+
+plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendecia de PIB 2 trimestre ")
+points(x=2020,y=prediccion[2],col="blue",pch=19)
+
+plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendecia de PIB 3 trimestre ")
+points(x=2020,y=prediccion[3],col="blue",pch=19)
+
+plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendecia de PIB semestral")
+points(x=2020,y=prediccion[4],col="blue",pch=19)
+
+plot(x=c(1981:2020), y=data.final$PIB ,type = "o", ylab = "millones de pesos", xlab = "Tiempo", main = "Tendecia de PIB de nueve meses")
+points(x=2020,y=prediccion[5],col="blue",pch=19)
+
 prediccion
