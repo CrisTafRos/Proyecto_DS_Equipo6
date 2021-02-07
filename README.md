@@ -196,3 +196,34 @@ beta0=-5.008e+06
 beta3=2.579e+01
 beta4=1.519e+00
 ```
+
+Tomamos el siguiente archivo, con los registros del INEGI con respecto al año 2020, para poder ver así las siguientes predicciones:
+
+```r
+> prediccion
+[1] 17457907 16502363 16161105 16980122 16707108
+```
+
+- Todas en conjunto, señaladas en azul:
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_c.jpeg)
+*Gráfico 6. Tendencia de PIB anual*
+
+- Predicción 1:
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_1.jpeg)
+*Gráfico 7. Tendencia de PIB al primer trimestre*
+
+- Predicción 2:
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_2.jpeg)
+*Gráfico 8. Tendencia de PIB al segundo trimestre*
+
+- Predicción 3:
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_3.jpeg)
+*Gráfico 9. Tendencia de PIB al tercer trimestre*
+
+- Predicción 4:
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_4.jpeg)
+*Gráfico 10. Tendencia de PIB semestral*
+
+- Predicción 5:
+![alt text](https://github.com/CrisTafRos/Proyecto_DS_Equipo6/raw/main/pred_5.jpeg)
+*Gráfico 11. Tendencia de PIB a nueve meses*
