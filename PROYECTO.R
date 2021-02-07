@@ -164,8 +164,8 @@ beta4=1.519e+00
 
 # hacemos la prediccion en base a datos encontrados en inegi de lo que fue el a?o 2020
 DATOS2020<-read.csv(file ="PIB2020.csv")
-names(DATOS2020)
-DATOS2020<-rename(DATOS2020,X1=Impuestos.sobre.los.productos..netos,X2=Valor.agregado.bruto,X3=Actividades.primarias,X4=Actividades.secundarias,X5=Actividades.terciarias)
+DATOS2020 <- data.frame((t(DATOS2020[-1])))
+
 str(DATOS2020)
 View(DATOS2020)
 prediccion =beta0+beta3*DATOS2020$X3+beta4*DATOS2020$X4
